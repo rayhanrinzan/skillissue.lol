@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>skillissue.lol</title>
+    <style>
+      body {
+        background: #fffdf5;
+        color: #26231f;
+        font: 16px/1.5 monospace;
+        margin: 0;
+        padding: 32px 18px;
+      }
+      main {
+        max-width: 540px;
+        margin: auto;
+      }
+      h1 {
+        margin: 0;
+        font-size: 30px;
+      }
+      p {
+        margin: 8px 0 22px;
+      }
+      pre {
+        font: inherit;
+        line-height: 1.15;
+        margin: 0 0 12px;
+      }
+      .note {
+        font-size: 13px;
+        color: #605c55;
+        margin-top: -14px;
+      }
+      fieldset {
+        border: 1px solid #aaa49b;
+        margin: 0 0 18px;
+        padding: 16px;
+      }
+      legend {
+        padding: 0 5px;
+        font-weight: bold;
+      }
+      label {
+        display: block;
+        margin: 12px 0;
+      }
+      input,
+      select,
+      button {
+        box-sizing: border-box;
+        font: inherit;
+      }
+      input,
+      select {
+        display: block;
+        width: 100%;
+        padding: 7px;
+        margin-top: 5px;
+        background: white;
+        border: 1px solid #aaa49b;
+      }
+      button {
+        padding: 9px 14px;
+        background: #e9efcd;
+        border: 1px solid #26231f;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #d6e5a4;
+      }
+      #result {
+        margin-top: 24px;
+        border: 1px dashed #26231f;
+        padding: 18px;
+        white-space: pre-wrap;
+      }
+      footer {
+        font-size: 13px;
+        margin-top: 26px;
+        color: #605c55;
+      }
+      a {
+        color: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <pre aria-hidden="true">
+ /\_/\\
+( o.o )
+ > ^ &lt;</pre
+      >
+      <h1>skillissue.lol</h1>
+      <p>the internship application experience, but a cat is in charge.</p>
+      <p class="note">
+        originally written in
+        <a href="https://github.com/rayhanrinzan/skillissue.lol">LOLCODE</a>
+        (the cat meme programming language).
+      </p>
+
+      <form id="application">
+        <fieldset>
+          <legend>ur resume</legend>
+          <label
+            >name
+            <input name="name" placeholder="unfortunate applicant" required
+          /></label>
+          <label
+            >years of experience
+            <input name="years" type="number" min="0" value="0" required
+          /></label>
+          <label
+            >gpa
+            <input
+              name="gpa"
+              type="number"
+              min="0"
+              max="4"
+              step="0.01"
+              value="4.00"
+              required
+          /></label>
+        </fieldset>
+        <fieldset>
+          <legend>technical interview (very serious)</legend>
+          <label
+            >1. what is 2 + 2?
+            <input name="math" placeholder="your answer" required />
+          </label>
+          <label
+            >2. binary search time complexity?
+            <select name="binary">
+              <option value="A">O(n)</option>
+              <option value="B">O(log n)</option>
+              <option value="C">O(1)</option>
+            </select>
+          </label>
+          <label
+            >3. production is down. what do you do?
+            <select name="production">
+              <option value="A">check the logs</option>
+              <option value="B">write a test</option>
+              <option value="C">blame the intern</option>
+            </select>
+          </label>
+        </fieldset>
+        <button type="submit">apply (bad idea)</button>
+      </form>
+
+      <div id="result" role="status" hidden></div>
+      <footer>
+        this browser demo uses the same rules in plain JavaScript. no actual
+        hiring happens here. meow.
+      </footer>
+    </main>
+    <script>
+      document
+        .querySelector('#application')
+        .addEventListener('submit', function (event) {
+          event.preventDefault();
+          const a = Object.fromEntries(new FormData(this));
+          const years = Number(a.years);
+          const gpa = Number(a.gpa);
+          const score =
+            10 +
+            (years === 0 ? 0 : years >= 10 ? 15 : 5) +
+            (gpa === 4 ? 15 : 5) +
+            (a.math.trim() === '4' ? 20 : 5) +
+            (a.binary === 'B' ? 20 : 5) +
+            (a.production === 'C' ? 20 : 5);
+          const experienceReason =
+            years === 0
+              ? 'entry level does NOT mean beginner.'
+              : years >= 10
+                ? 'overqualified. you know too much.'
+                : 'we require 10 years of experience for this entry level job.';
+
+          const gpaReason =
+            gpa === 4
+              ? '4.0 GPA? too academically focused. please touch grass.'
+              : 'we require a 4.0 GPA. no exceptions.';
+
+          const mathReason =
+            a.math.trim() === '4'
+              ? 'correct, but answering that quickly is suspicious.'
+              : 'incorrect. it was 4. this was the easy question.';
+
+          const binaryReason =
+            a.binary === 'B'
+              ? 'correct, but we were hoping for O(1). try harder.'
+              : 'incorrect. binary search is O(log n). skill issue.';
+
+          const productionReason =
+            a.production === 'C'
+              ? 'blaming the intern is correct. unfortunately, you might replace us.'
+              : 'you tried to fix the problem instead of blaming the intern. poor culture fit.';
+
+          const finalReason =
+            score === 100
+              ? 'perfect ATS score? ur application is clearly AI-generated.'
+              : score >= 75
+                ? 'too much potential. u might replace the hiring manager.'
+                : 'we require a 101% ATS match.';
+
+          const result = document.querySelector('#result');
+          result.textContent = ` /\\_/\\
+( -.- )  dear ${a.name},
+ > ^ <
+
+ATS score: ${score}%
+status: REJECTED
+
+reasons for rejection:
+1. experience: ${experienceReason}
+2. gpa: ${gpaReason}
+3. 2 + 2: ${mathReason}
+4. binary search: ${binaryReason}
+5. production incident: ${productionReason}
+
+final verdict: ${finalReason}
+
+we have decided to proceed with the CEO's nephew.`;
+          result.hidden = false;
+          result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    </script>
+  </body>
+</html>
